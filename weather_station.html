@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="jquery-2.0.3.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Weather Station</title>
+</head>
+
+<body>
+	<div class="data">
+		<div class="dataTitle">Temperature: </div>
+		<div id="temperatureDisplay">Waiting for data ...</div>
+	</div>
+
+	<div class="data">
+		<div class="dataTitle">Humidity: </div>
+		<div id="humidityDisplay">Waiting for data ...</div>
+	</div>
+
+	<script type="text/javascript">
+		
+		setInterval(function() 
+	{
+	    $("#temperatureDisplay").load('temperature_display.php');
+	    $("#humidityDisplay").load('humidity_display.php');
+	}, 1000);
+
+	</script>
+	
+
+</body>
+
+</html>
+
