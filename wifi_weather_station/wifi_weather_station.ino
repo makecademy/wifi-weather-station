@@ -21,9 +21,9 @@
 // Buffer for float to String conversion
 char buffer[5];
 
-// WiFi network
-#define WLAN_SSID       "QL2"
-#define WLAN_PASS       "5145246333"
+// WiFi network (change with your settings !)
+#define WLAN_SSID       "yourNetwork"
+#define WLAN_PASS       "yourPassword"
 #define WLAN_SECURITY   WLAN_SEC_WPA2 // This can be WLAN_SEC_UNSEC, WLAN_SEC_WEP, WLAN_SEC_WPA or WLAN_SEC_WPA2
 
 // DHT11 sensor pins
@@ -35,7 +35,7 @@ DHT dht(DHTPIN, DHTTYPE);
 Adafruit_CC3000 cc3000 = Adafruit_CC3000(ADAFRUIT_CC3000_CS, ADAFRUIT_CC3000_IRQ, ADAFRUIT_CC3000_VBAT,
                                          SPI_CLOCK_DIV2);
                                          
-// Local server IP, port, and repository
+// Local server IP, port, and repository (change with your settings !)
 uint32_t ip = cc3000.IP2U32(192,168,1,179);
 int port = 8888;
 String repository = "/wifi-weather-station/";
