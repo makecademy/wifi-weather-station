@@ -18,11 +18,8 @@
 #define ADAFRUIT_CC3000_VBAT  5
 #define ADAFRUIT_CC3000_CS    10
 
-// Buffer for float to String conversion
-char buffer[5];
-
 // WiFi network (change with your settings !)
-#define WLAN_SSID       "yourNetwork"
+#define WLAN_SSID       "yourNetwork"        // cannot be longer than 32 characters!
 #define WLAN_PASS       "yourPassword"
 #define WLAN_SECURITY   WLAN_SEC_WPA2 // This can be WLAN_SEC_UNSEC, WLAN_SEC_WEP, WLAN_SEC_WPA or WLAN_SEC_WPA2
 
@@ -36,8 +33,8 @@ Adafruit_CC3000 cc3000 = Adafruit_CC3000(ADAFRUIT_CC3000_CS, ADAFRUIT_CC3000_IRQ
                                          SPI_CLOCK_DIV2);
                                          
 // Local server IP, port, and repository (change with your settings !)
-uint32_t ip = cc3000.IP2U32(192,168,1,179);
-int port = 8888;
+uint32_t ip = cc3000.IP2U32(169,254,235,254);
+int port = 8887;
 String repository = "/wifi-weather-station/";
                                          
 void setup(void)
@@ -75,8 +72,8 @@ void loop(void)
     float t = dht.readTemperature();
      
     // Transform to String
-    String temperature = floatToString(t);
-    String humidity = floatToString(h);
+    String temperature = String((int) t);
+    String humidity = String((int) h);
     
     // Print data
     Serial.println(temperature);
@@ -94,18 +91,14 @@ void loop(void)
 // Function to send a TCP request and get the result as a string
 void send_request (String request) {
      
-    // Transform to char
-    char requestBuf[request.length()];
-    request.toCharArray(requestBuf,request.length()); 
-  
     // Connect    
     Serial.println("Starting connection to server...");
     Adafruit_CC3000_Client www = cc3000.connectTCP(ip, port);
     
     // Send request
     if (www.connected()) {
-      www.fastrprintln(requestBuf);      
-      www.fastrprintln(F(""));
+      www.println(request);      
+      www.println(F(""));
     } 
     else {
       Serial.println(F("Connection failed"));    
@@ -120,13 +113,4 @@ void send_request (String request) {
     }
     www.close();
     
-    free(requestBuf);
-}
-
-// Float to String conversion
-String floatToString(float number) {
-  
-  dtostrf(number,5,2,buffer);
-  return String(buffer);
-  
 }
