@@ -19,8 +19,8 @@
 #define ADAFRUIT_CC3000_CS    10
 
 // WiFi network (change with your settings !)
-#define WLAN_SSID       "yourNetwork"        // cannot be longer than 32 characters!
-#define WLAN_PASS       "yourPassword"
+#define WLAN_SSID       "marco"        // cannot be longer than 32 characters!
+#define WLAN_PASS       "beyond08"
 #define WLAN_SECURITY   WLAN_SEC_WPA2 // This can be WLAN_SEC_UNSEC, WLAN_SEC_WEP, WLAN_SEC_WPA or WLAN_SEC_WPA2
 
 // DHT11 sensor pins
@@ -33,7 +33,7 @@ Adafruit_CC3000 cc3000 = Adafruit_CC3000(ADAFRUIT_CC3000_CS, ADAFRUIT_CC3000_IRQ
                                          SPI_CLOCK_DIV2);
                                          
 // Local server IP, port, and repository (change with your settings !)
-uint32_t ip = cc3000.IP2U32(169,254,235,254);
+uint32_t ip = cc3000.IP2U32(192,168,0,1);
 int port = 8887;
 String repository = "/wifi-weather-station/";
                                          
@@ -44,7 +44,7 @@ void setup(void)
   dht.begin();
   
   Serial.begin(115200);
-  
+    
   // Initialise the CC3000 module
   if (!cc3000.begin())
   {
@@ -76,16 +76,18 @@ void loop(void)
     String humidity = String((int) h);
     
     // Print data
+    Serial.print("Temperature: ");
     Serial.println(temperature);
+    Serial.print("Humidity: ");
     Serial.println(humidity);
+    Serial.println("");
     
     // Send request
-    Serial.println("GET "+ repository + "sensor.php?temp=" + temperature + "&hum=" + humidity + " HTTP/1.0");
     String request = "GET "+ repository + "sensor.php?temp=" + temperature + "&hum=" + humidity + " HTTP/1.0";
     send_request(request);
     
-    // Update every 10 sec
-    delay(10000);
+    // Update every second
+    delay(1000);
 }
 
 // Function to send a TCP request and get the result as a string
@@ -93,24 +95,27 @@ void send_request (String request) {
      
     // Connect    
     Serial.println("Starting connection to server...");
-    Adafruit_CC3000_Client www = cc3000.connectTCP(ip, port);
+    Adafruit_CC3000_Client client = cc3000.connectTCP(ip, port);
     
     // Send request
-    if (www.connected()) {
-      www.println(request);      
-      www.println(F(""));
+    if (client.connected()) {
+      client.println(request);      
+      client.println(F(""));
+      Serial.println("Connected & Data sent");
     } 
     else {
       Serial.println(F("Connection failed"));    
     }
 
-    while (www.connected()) {
-      while (www.available()) {
+    while (client.connected()) {
+      while (client.available()) {
 
       // Read answer
-      char c = www.read();
+      char c = client.read();
       }
     }
-    www.close();
+    Serial.println("Closing connection");
+    Serial.println("");
+    client.close();
     
 }

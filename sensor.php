@@ -12,7 +12,7 @@
 		$fh = fopen($myFile, 'w');
 		fwrite($fh, $_GET["hum"]);
 		fclose($fh);
-
+		
     }
 
 ?>

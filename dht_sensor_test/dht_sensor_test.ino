@@ -8,7 +8,6 @@
 #include <SPI.h>
 #include <string.h>
 #include "DHT.h"
-#include<stdlib.h>
 
 // DHT11 sensor pins
 #define DHTPIN 7 
@@ -16,7 +15,6 @@
 
 // DHT instance
 DHT dht(DHTPIN, DHTTYPE);
-char buffer[5];
                                          
 void setup(void)
 {
@@ -36,17 +34,13 @@ void loop(void)
     float t = dht.readTemperature();
    
     // Transform to String
-    String temp = floatToString(t);
-    String hum = floatToString(h);
+    String temp = String((int) t);
+    String hum = String((int) h);
     
+    Serial.print("Temperature: ");
     Serial.println(temp);
+    Serial.print("Humidity: ");
     Serial.println(hum);
-    
-}
-
-String floatToString(float number) {
-  
-  dtostrf(number,5,2,buffer);
-  return String(buffer);
+    Serial.println("");
   
 }
