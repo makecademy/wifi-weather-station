@@ -6,12 +6,8 @@
 
 // Include required libraries
 #include <Adafruit_CC3000.h>
-#include <ccspi.h>
 #include <SPI.h>
-#include <string.h>
-#include "utility/debug.h"
 #include "DHT.h"
-#include<stdlib.h>
 
 // Define CC3000 chip pins
 #define ADAFRUIT_CC3000_IRQ   3
@@ -19,8 +15,8 @@
 #define ADAFRUIT_CC3000_CS    10
 
 // WiFi network (change with your settings !)
-#define WLAN_SSID       "marco"        // cannot be longer than 32 characters!
-#define WLAN_PASS       "beyond08"
+#define WLAN_SSID       "yourNetwork"        // cannot be longer than 32 characters!
+#define WLAN_PASS       "yourPassword"
 #define WLAN_SECURITY   WLAN_SEC_WPA2 // This can be WLAN_SEC_UNSEC, WLAN_SEC_WEP, WLAN_SEC_WPA or WLAN_SEC_WPA2
 
 // DHT11 sensor pins
