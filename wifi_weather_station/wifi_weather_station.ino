@@ -54,7 +54,7 @@ void setup(void)
 { 
   
   // Start Serial
-  Serial.begin(115200);
+  Serial.begin(9600);
   
   // Expose variables to REST API
   rest.variable("temperature",&temperature);
