@@ -11,6 +11,7 @@ install:
   - arduino --install-library "Adafruit CC3000 Library"
   - arduino --install-library "CC3000 MDNS"
   - arduino --install-library "aREST"
+  - arduino --install-library "DHT sensor library"
 script:
   - arduino --verify --board arduino:avr:uno $PWD/sensor_test/sensor_test.ino
   - arduino --verify --board arduino:avr:uno $PWD/wifi_weather_station/wifi_weather_station.ino
